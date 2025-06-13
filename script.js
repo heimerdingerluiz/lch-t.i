@@ -2,6 +2,9 @@
 let carrinho = [];
 let itemCounter = document.querySelector('.item-count');
 
+// Carregar carrinho do localStorage
+let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
 // Função para adicionar ao carrinho
 document.querySelectorAll('.add-carrinho').forEach(button => {
     button.addEventListener('click', function () {
@@ -13,6 +16,9 @@ document.querySelectorAll('.add-carrinho').forEach(button => {
             nome: nome,
             preco: preco
         });
+        
+        // Salvar carrinho no localStorage
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
         
         atualizarCarrinho();
         mostrarNotificacao(`Produto ${nome} adicionado ao carrinho!`, 'success');

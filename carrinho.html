@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho - LCH INFORMATICA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <div class="logo-container">
+                        <div class="logo-icon">
+                            <i class="fas fa-desktop"></i>
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h1>LCH INFORMATICA</h1>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#produtos">Produtos</a></li>
+                <li><a href="index.html#servicos">Agenda de Serviços</a></li>
+                <li><a href="index.html#sobre">Sobre</a></li>
+                <li><a href="index.html#contato">Contato</a></li>
+                <li class="carrinho-container">
+                    <a href="carrinho.html" class="carrinho">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="item-count">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="carrinho-container">
+        <h2>Carrinho de Compras</h2>
+        
+        <div class="carrinho-itens" id="carrinho-itens">
+            <!-- Os itens do carrinho serão inseridos aqui via JavaScript -->
+        </div>
+
+        <div class="carrinho-total">
+            <h3>Total: <span id="carrinho-total">R$ 0,00</span></h3>
+            <button id="finalizar-compra" class="btn-primary">Finalizar Compra</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 LCH INFORMATICA. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="carrinho.js"></script>
+</body>
+</html>
