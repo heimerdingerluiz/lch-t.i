@@ -1,7 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const carrinhoItens = document.getElementById('carrinho-itens');
-    const carrinhoTotal = document.getElementById('carrinho-total');
-    const finalizarCompra = document.getElementById('finalizar-compra');
+    // Verificar se os elementos existem antes de tentar acessá-los
+    const carrinhoItens = document.querySelector('.carrinho-itens');
+    const carrinhoTotal = document.querySelector('#carrinho-total');
+    const finalizarCompra = document.querySelector('#finalizar-compra');
+
+    if (!carrinhoItens || !carrinhoTotal || !finalizarCompra) {
+        console.error('Elementos do carrinho não encontrados no DOM');
+        return;
+    }
 
     // Carregar carrinho do localStorage
     let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
