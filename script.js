@@ -1,9 +1,6 @@
 // Variáveis globais
-let carrinho = [];
-let itemCounter = document.querySelector('.item-count');
-
-// Carregar carrinho do localStorage
 let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+let itemCounter = document.querySelector('.item-count');
 
 // Função para adicionar ao carrinho
 document.querySelectorAll('.add-carrinho').forEach(button => {
