@@ -47,15 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('carrinho', JSON.stringify(carrinho));
     }
 
-    // Atualizar contador de itens no header
-    function atualizarContador() {
-        const itemCounter = document.querySelector('.item-count');
-        itemCounter.textContent = carrinho.length;
-    }
-
     // Inicializar carrinho
     atualizarCarrinho();
-    atualizarContador();
 
     // Evento para finalizar compra
     finalizarCompra.addEventListener('click', () => {
@@ -69,6 +62,18 @@ document.addEventListener('DOMContentLoaded', () => {
         carrinho = [];
         salvarCarrinho();
         atualizarCarrinho();
-        atualizarContador();
     });
 });
+
+// Função para mostrar notificações
+function mostrarNotificacao(mensagem, tipo) {
+    const notificacao = document.createElement('div');
+    notificacao.className = `notificacao ${tipo}`;
+    notificacao.textContent = mensagem;
+    
+    document.body.appendChild(notificacao);
+    
+    setTimeout(() => {
+        notificacao.remove();
+    }, 3000);
+}
