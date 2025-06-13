@@ -1,26 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Verificar se os elementos existem antes de tentar acessá-los
-    const carrinhoItens = document.querySelector('.carrinho-itens');
-    const carrinhoTotal = document.querySelector('#carrinho-total');
-    const finalizarCompra = document.querySelector('#finalizar-compra');
-
-    if (!carrinhoItens || !carrinhoTotal || !finalizarCompra) {
-        console.error('Elementos do carrinho não encontrados no DOM');
-        return;
-    }
-
-    // Carregar carrinho do localStorage
-    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
-
-    // Função para atualizar a exibição do carrinho
-    function atualizarCarrinho() {
-        carrinhoItens.innerHTML = '';
-        let total = 0;
-
-        carrinho.forEach(item => {
+    console.log('Script do carrinho iniciado');
+    
+    try {
+        // Carregar carrinho do localStorage
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        
+        // Atualizar total
+        let total = carrinho.reduce((acc, item) => {
             const precoNum = parseFloat(item.preco.replace('R$ ', '').replace(',', '.'));
-            total += precoNum;
-
+            return acc + precoNum;
+        }, 0);
+        
+        const totalFormatado = new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(total);
+        
+        // Atualizar elementos do DOM
+        document.getElementById('carrinho-total').textContent = totalFormatado;
+        
+        // Atualizar itens do carrinho
+        const carrinhoItens = document.getElementById('carrinho-itens');
+        carrinhoItens.innerHTML = '';
+        
+        carrinho.forEach(item => {
             const itemElement = document.createElement('div');
             itemElement.className = 'carrinho-item';
             itemElement.innerHTML = `
@@ -30,56 +33,38 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             carrinhoItens.appendChild(itemElement);
         });
-
-        // Atualizar total
-        const totalFormatado = new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL'
-        }).format(total);
-
-        carrinhoTotal.textContent = totalFormatado;
+        
+        console.log('Carrinho atualizado com sucesso');
+    } catch (error) {
+        console.error('Erro ao carregar carrinho:', error);
     }
-
-    // Função para remover item
-    function removerItem(nome) {
-        carrinho = carrinho.filter(item => item.nome !== nome);
-        salvarCarrinho();
-        atualizarCarrinho();
-        mostrarNotificacao(`Item ${nome} removido do carrinho!`, 'success');
-    }
-
-    // Salvar carrinho no localStorage
-    function salvarCarrinho() {
-        localStorage.setItem('carrinho', JSON.stringify(carrinho));
-    }
-
-    // Inicializar carrinho
-    atualizarCarrinho();
-
-    // Evento para finalizar compra
-    finalizarCompra.addEventListener('click', () => {
-        if (carrinho.length === 0) {
-            mostrarNotificacao('Seu carrinho está vazio!', 'error');
-            return;
-        }
-
-        // Aqui você pode adicionar a lógica para processar o pagamento
-        mostrarNotificacao('Compra finalizada com sucesso!', 'success');
-        carrinho = [];
-        salvarCarrinho();
-        atualizarCarrinho();
-    });
 });
 
-// Função para mostrar notificações
-function mostrarNotificacao(mensagem, tipo) {
-    const notificacao = document.createElement('div');
-    notificacao.className = `notificacao ${tipo}`;
-    notificacao.textContent = mensagem;
-    
-    document.body.appendChild(notificacao);
-    
-    setTimeout(() => {
-        notificacao.remove();
-    }, 3000);
+// Função para remover item
+function removerItem(nome) {
+    try {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        carrinho = carrinho.filter(item => item.nome !== nome);
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        window.location.reload();
+    } catch (error) {
+        console.error('Erro ao remover item:', error);
+    }
+}
+
+// Função para finalizar compra
+function finalizarCompra() {
+    try {
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+        if (carrinho.length === 0) {
+            alert('Seu carrinho está vazio!');
+            return;
+        }
+        
+        localStorage.removeItem('carrinho');
+        alert('Compra finalizada com sucesso!');
+        window.location.reload();
+    } catch (error) {
+        console.error('Erro ao finalizar compra:', error);
+    }
 }
